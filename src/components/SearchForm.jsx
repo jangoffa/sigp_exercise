@@ -27,7 +27,7 @@ class SearchForm extends React.Component {
      * Triggers search
      */
     handleSubmit = () => {
-        this.searchMovies();
+        this.searchMovies(1);
     }
 
     /**
@@ -35,25 +35,25 @@ class SearchForm extends React.Component {
      */
     handlePressEnter = (e) => {
         e.preventDefault();
-        this.searchMovies();
+        this.searchMovies(1);
     }
 
     /**
      * Page changed
      */
-    onShowSizeChange = (current, pageSize) => {
+    handlePageChange = (pageNumber) => {
         this.setState({
-            currentPage: current
+            currentPage: pageNumber
         });
 
-        this.searchMovies();
+        this.searchMovies(pageNumber);
     }
 
     /**
      * Search for movies according to current state
      */
-    searchMovies = () => {
-        Api.searchMovies(this.state.value, this.state.currentPage)
+    searchMovies = (page) => {
+        Api.searchMovies(this.state.value, page)
             .then(result => {
                 if (Array.isArray(result.Search)) {
                     this.setState({
@@ -63,8 +63,7 @@ class SearchForm extends React.Component {
                 } else {
                     this.setState({
                         movies: [],
-                        totalResults: 0,
-                        currentPage: 1
+                        totalResults: 0
                     });
                 }
             });
@@ -78,7 +77,7 @@ class SearchForm extends React.Component {
                     <Button type="primary" icon="search" onClick={this.handleSubmit}>Search</Button>
                 </form>
                 <MoviesList movies={this.state.movies}></MoviesList>
-                <Pagination total={this.state.totalResults} showSizeChanger onShowSizeChange={this.onShowSizeChange} />
+                <Pagination total={this.state.totalResults} onChange={this.handlePageChange} />
             </div>
         )
     }

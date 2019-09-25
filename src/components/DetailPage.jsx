@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.css';
 import Api from '../services/movieService.ts';
-import { List, Typography } from 'antd';
 import { Descriptions } from 'antd';
 import { Icon } from 'antd';
 
@@ -14,7 +13,15 @@ class DetailPage extends React.Component {
             isFavourite: false
         }
 
-        Api.getMovieById('tt0096895')
+        console.log("DetailPage constructor");
+        console.log(props);
+
+        var selectedId = 'tt0096895';
+        if (this.props.location.state !== undefined && this.props.location.state != null) {
+            selectedId = this.props.location.state.id;
+        }
+
+        Api.getMovieById(selectedId)
             .then(result => {
                 if (result)
                 {
@@ -42,7 +49,7 @@ class DetailPage extends React.Component {
                     onClick={this.handleClickFavourite}
                 />
 
-                <Descriptions title="User Info" bordered>
+                <Descriptions title="Movie Info" bordered>
                     <Descriptions.Item label="Title">{this.state.movie.Title}</Descriptions.Item>
                     <Descriptions.Item label="Genre">{this.state.movie.Genre}</Descriptions.Item>
                     <Descriptions.Item label="Year">{this.state.movie.Year}</Descriptions.Item>
@@ -53,6 +60,7 @@ class DetailPage extends React.Component {
                 </Descriptions>
             </div>
         );
+
     }
 }
 

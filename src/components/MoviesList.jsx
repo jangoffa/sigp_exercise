@@ -1,48 +1,71 @@
 import React from 'react';
-import { Route, Link } from 'react-router-dom';
 import { Row, Col } from 'antd';
+import { Redirect } from "react-router";
+import { withRouter } from "react-router-dom";
 
 class MoviesList extends React.Component {
+  constuctor() {
+    // this.routeChange = this.routeChange.bind(this);
 
-  handleOnClick = (id) => {
-
+    this.setState({
+      selectedId: 0,
+      redirect: false
+    });
   }
+
+  /**
+   * Allow redirect
+   */
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+
+  /**
+   * Renders redirect if clicked
+   */
+  renderRedirect = (id) => {
+    if (this.state !== null && this.state.redirect) {
+      return <Redirect to={{
+        pathname: '/DetailPage',
+        state: {id: id}
+      }}/>
+    }
+  }
+
+  // routeChange = () => {
+  //   let pathname = '/DetailPage';
+  //   let redirectState = {id: 'tt1569923'};
+
+  //   console.log("routeChange method")
+  //   console.log(this.props);
+  //   this.props.history.push(pathname, redirectState);
+  // }
 
   render() {
     return (
-      // <div>
-      //   {
-      //     this.props.movies.map(movie => {
-      //       return (
-      //         <ul>
-      //           <li>
-      //             <Link to="/users/1">User 1 </Link>
-      //           </li>          
-      //         </ul>
-      //         <Route path="/users/:id" component={User} />
-      //       )
-      //     })
-      //   }
-      // </div>
-
       <Row gutter={24} justify={'start'}>
       {
         this.props.movies.map(movie => {
           return (
             <Col span={5} offset={1} key={movie.imdbID}>
-              <p>{movie.Title}</p>
-                {/* <a onClick={this.handleOnClick('tt0118688')} >{movie}</a> */}
+              {this.renderRedirect(movie.imdbID)}
+              <a href="#" onClick={this.setRedirect}>{movie.Title}</a>
+              {/* <Route>
+                <Redirect to={{
+                  pathname: '/DetailPage',
+                  state: {id: movie.imdbID}
+                }}/>
+              </Route> */}
+              {/* <p>{movie.Title}</p> */}
             </Col>
           )
         })
       }
       </Row>
     );
-
-
-
-    // );
   }
 }
 
-export default MoviesList;
+export default withRouter(MoviesList);

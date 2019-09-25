@@ -4,7 +4,6 @@ import './App.css';
 import 'antd/dist/antd.css';
 import SearchPage from '../src/components/SearchPage';
 import DetailPage from '../src/components/DetailPage';
-import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
@@ -13,7 +12,7 @@ function App() {
       <header className="App-header">
         <p>Movie management application</p>
       </header>
-      <body className="App-body">
+      <body>
       <Router>
           <div>
             <ul>
@@ -29,7 +28,7 @@ function App() {
             </ul>
             <Route exact path="/" component={SearchPage}></Route>
             <Route path="/detail" component={DetailPage}></Route>
-            {/* <Route exact path="/" component={SearchPage}></Route> */}
+            {/* <Route exact path="/" component={FavouritesPage}></Route> */}
           </div>
         </Router>
       </body>
